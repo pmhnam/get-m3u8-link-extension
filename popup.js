@@ -1,19 +1,15 @@
-
-
 const mediaPlayerBaseUrl = 'https://pmhnam.github.io/media-player';
-
 
 document.addEventListener('DOMContentLoaded', function () {
     const apiList = document.getElementById('api-list');
     const emptyMessage = document.querySelector('.empty-message');
 
-    // Function to remove a URL from storage and update the popup
     function removeUrl(urlToRemove) {
         chrome.storage.local.get({ urls: [] }, function (result) {
             let urls = result.urls;
             urls = urls.filter(url => url.url !== urlToRemove);
             chrome.storage.local.set({ urls: urls }, function () {
-                renderApiCalls(); // Re-render the list after removal
+                renderApiCalls();
             });
         });
     }
@@ -32,9 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     const link = document.createElement('a');
                     link.href = `${mediaPlayerBaseUrl}?v=${encodeURIComponent(url)}`;
                     link.textContent = title;
-                    link.target = '_blank'; // Mở liên kết trong tab mới
+                    link.target = '_blank';
                     const deleteBtn = document.createElement('span');
-                    deleteBtn.textContent = 'x'; // Biểu tượng "X"
+                    deleteBtn.textContent = 'x';
                     deleteBtn.className = 'delete-btn';
                     deleteBtn.addEventListener('click', function () {
                         removeUrl(url);
@@ -47,6 +43,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Render the API calls list on load
     renderApiCalls();
 });
